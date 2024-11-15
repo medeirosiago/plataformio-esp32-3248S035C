@@ -12,9 +12,9 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug",
-            "executable": "/home/master/screen-3/.pio/build/esp32-3248S035C/firmware.elf",
+            "executable": "C:/Users/iagom/OneDrive/Documentos/PlatformIO/Projects/plataformio-esp32-3248S035C/.pio/build/esp32-3248S035C/firmware.elf",
             "projectEnvName": "esp32-3248S035C",
-            "toolchainBinDir": "/home/master/.platformio/packages/toolchain-xtensa-esp32/bin",
+            "toolchainBinDir": "C:/Users/iagom/.platformio/packages/toolchain-xtensa-esp32/bin",
             "internalConsoleOptions": "openOnSessionStart",
             "preLaunchTask": {
                 "type": "PlatformIO",
@@ -25,18 +25,18 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug (skip Pre-Debug)",
-            "executable": "/home/master/screen-3/.pio/build/esp32-3248S035C/firmware.elf",
+            "executable": "C:/Users/iagom/OneDrive/Documentos/PlatformIO/Projects/plataformio-esp32-3248S035C/.pio/build/esp32-3248S035C/firmware.elf",
             "projectEnvName": "esp32-3248S035C",
-            "toolchainBinDir": "/home/master/.platformio/packages/toolchain-xtensa-esp32/bin",
+            "toolchainBinDir": "C:/Users/iagom/.platformio/packages/toolchain-xtensa-esp32/bin",
             "internalConsoleOptions": "openOnSessionStart"
         },
         {
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug (without uploading)",
-            "executable": "/home/master/screen-3/.pio/build/esp32-3248S035C/firmware.elf",
+            "executable": "C:/Users/iagom/OneDrive/Documentos/PlatformIO/Projects/plataformio-esp32-3248S035C/.pio/build/esp32-3248S035C/firmware.elf",
             "projectEnvName": "esp32-3248S035C",
-            "toolchainBinDir": "/home/master/.platformio/packages/toolchain-xtensa-esp32/bin",
+            "toolchainBinDir": "C:/Users/iagom/.platformio/packages/toolchain-xtensa-esp32/bin",
             "internalConsoleOptions": "openOnSessionStart",
             "loadMode": "manual"
         }

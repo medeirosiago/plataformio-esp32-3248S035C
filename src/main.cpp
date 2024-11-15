@@ -3,7 +3,7 @@
 
 #include <demos/lv_demos.h>
 #include "touchpad.h"
-
+#include "ui/ui.h"
 TFT_eSPI tft = TFT_eSPI(); /* TFT实例 */
 
 /*LVGL: Read the touchpad*/
@@ -28,8 +28,8 @@ void my_touchpad_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
 }
 
 //////////////////////////// DISPLAY ///////////////////////////////
-static const uint16_t screenWidth = 320;
-static const uint16_t screenHeight = 480;
+static const uint16_t screenWidth = 480;
+static const uint16_t screenHeight = 320;
 
 static lv_disp_draw_buf_t draw_buf;
 static lv_color_t buf[screenWidth * screenHeight / 6];
@@ -63,9 +63,8 @@ void setup()
   Serial.println("I am LVGL_Arduino");
   GT911_Init_Touchpad();
   lv_init();
-
   tft.begin();
-  tft.setRotation(0);
+  tft.setRotation(1);
   tft.fillScreen(TFT_RED);
   delay(500);
   tft.fillScreen(TFT_GREEN);
@@ -76,18 +75,13 @@ void setup()
   tft.drawRect(0, 0, 320, 480, TFT_RED);
   delay(500);
 
-  // touch_calibrate();//屏幕校准
-  // uint16_t calData[5] = { 145, 3788, 271, 3535, 1 };
-  // uint16_t calData[5] = { 241, 3532, 171, 3685, 3  };
-  // tft.setTouch( calData );
-
   lv_disp_draw_buf_init(&draw_buf, buf, NULL, screenWidth * screenHeight / 6);
 
   static lv_disp_drv_t disp_drv;
   lv_disp_drv_init(&disp_drv);
 
-  disp_drv.hor_res = 480;
-  disp_drv.ver_res = 320;
+  disp_drv.hor_res = screenWidth;
+  disp_drv.ver_res = screenHeight;
   disp_drv.flush_cb = my_disp_flush;
   disp_drv.draw_buf = &draw_buf;
   lv_disp_drv_register(&disp_drv);
@@ -98,46 +92,19 @@ void setup()
   indev_drv.read_cb = my_touchpad_read;
   lv_indev_drv_register(&indev_drv);
 
-  /* 创建简单标签 */
-  //    lv_obj_t *label = lv_label_create( lv_scr_act() );
-  //    lv_label_set_text( label, LVGL_Arduino.c_str() );
-  //    lv_obj_align( label, LV_ALIGN_CENTER, 0, 0 );
-  lv_example_btn();
+  // /* 创建简单标签 */
+  // //    lv_obj_t *label = lv_label_create( lv_scr_act() );
+  // //    lv_label_set_text( label, LVGL_Arduino.c_str() );
+  // //    lv_obj_align( label, LV_ALIGN_CENTER, 0, 0 );
+  // lv_example_btn();
+  ui_init();
+
   Serial.println("Setup done");
 }
 
 void loop()
 {
-  // tft.setTextColor(TFT_RED, false); // Set the text color to white with black background
-  // tft.setTextSize(3);
-  // // Draw an integer at position (100, 100) on the screen
-  // tft.drawNumber(0, 100, 100);
-  // delay(10000);
-  // tft.setRotation(1);
-  // tft.drawNumber(1, 100, 100);
-  // delay(10000);
-  // tft.setRotation(2);
-  // tft.drawNumber(2, 100, 100);
-  // delay(10000);
-  // tft.setRotation(3);
-  // tft.drawNumber(3, 100, 100);
-  // delay(10000);
-  // tft.setRotation(4);
-  // tft.drawNumber(4, 100, 100);
-  // delay(10000);
-  // tft.setRotation(5);
-  // tft.drawNumber(5, 100, 100);
-  // delay(10000);
-  // tft.setRotation(6);
-  // tft.drawNumber(6, 100, 100);
-  // delay(10000);
-  // tft.setRotation(7);
-  // tft.drawNumber(7, 100, 100);
-  // delay(10000);
-  // GT911_Scan();
-  // tft.fillCircle(Dev_Now.X[0], Dev_Now.Y[0], 0, TFT_RED);
-  // tft.fillCircle(30, 20, 1, TFT_RED);
   lv_timer_handler(); /* 让GUI完成它的工作 */
-  // tft.fillCircle(Dev_Now.X[0], Dev_Now.Y[0], 1, TFT_RED);
+  ui_tick();
   delay(10);
 }
