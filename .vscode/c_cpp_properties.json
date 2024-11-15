@@ -583,6 +583,10 @@
             ],
             "cStandard": "gnu99",
             "cppStandard": "gnu++11",
+            "forcedInclude": [
+                "/home/master/screen-3/src/include/User_Setup.h",
+                ""
+            ],
             "compilerPath": "/home/master/.platformio/packages/toolchain-xtensa-esp32/bin/xtensa-esp32-elf-gcc",
             "compilerArgs": [
                 "-mlongcalls",
