@@ -18,13 +18,20 @@ void create_screen_main() {
     objects.main = obj;
     lv_obj_set_pos(obj, 0, 0);
     lv_obj_set_size(obj, 480, 320);
+    lv_obj_add_event_cb(obj, action_login, LV_EVENT_PRESSED, (void *)0);
     {
         lv_obj_t *parent_obj = obj;
         {
-            lv_obj_t *obj = lv_img_create(parent_obj);
+            lv_obj_t *obj = lv_imgbtn_create(parent_obj);
             lv_obj_set_pos(obj, 0, 0);
-            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
-            lv_img_set_src(obj, &img_monkey_resized);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, 320);
+            lv_imgbtn_set_src(obj, LV_IMGBTN_STATE_RELEASED, NULL, &img_monkey_resized, NULL);
+            lv_imgbtn_set_src(obj, LV_IMGBTN_STATE_PRESSED, NULL, &img_monkey_resized, NULL);
+            lv_imgbtn_set_src(obj, LV_IMGBTN_STATE_DISABLED, NULL, &img_monkey_resized, NULL);
+            lv_imgbtn_set_src(obj, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &img_monkey_resized, NULL);
+            lv_imgbtn_set_src(obj, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &img_monkey_resized, NULL);
+            lv_imgbtn_set_src(obj, LV_IMGBTN_STATE_CHECKED_DISABLED, NULL, &img_monkey_resized, NULL);
+            lv_obj_add_event_cb(obj, action_login, LV_EVENT_PRESSED, (void *)0);
         }
     }
 }
@@ -32,14 +39,42 @@ void create_screen_main() {
 void tick_screen_main() {
 }
 
-void create_screen_monkey() {
+void create_screen_screen00() {
     lv_obj_t *obj = lv_obj_create(0);
-    objects.monkey = obj;
+    objects.screen00 = obj;
     lv_obj_set_pos(obj, 0, 0);
     lv_obj_set_size(obj, 480, 320);
+    lv_obj_add_event_cb(obj, action_logout, LV_EVENT_PRESSED, (void *)0);
+    {
+        lv_obj_t *parent_obj = obj;
+        {
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            lv_obj_set_pos(obj, 199, 88);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_label_set_text(obj, "MANO GOA");
+        }
+        {
+            // button_logout
+            lv_obj_t *obj = lv_btn_create(parent_obj);
+            objects.button_logout = obj;
+            lv_obj_set_pos(obj, 191, 160);
+            lv_obj_set_size(obj, 100, 50);
+            lv_obj_add_event_cb(obj, action_logout, LV_EVENT_PRESSED, (void *)0);
+            {
+                lv_obj_t *parent_obj = obj;
+                {
+                    lv_obj_t *obj = lv_label_create(parent_obj);
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                    lv_label_set_text(obj, "LOGOUT");
+                    lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                }
+            }
+        }
+    }
 }
 
-void tick_screen_monkey() {
+void tick_screen_screen00() {
 }
 
 
@@ -49,14 +84,14 @@ void create_screens() {
     lv_disp_set_theme(dispp, theme);
     
     create_screen_main();
-    create_screen_monkey();
+    create_screen_screen00();
 }
 
 typedef void (*tick_screen_func_t)();
 
 tick_screen_func_t tick_screen_funcs[] = {
     tick_screen_main,
-    tick_screen_monkey,
+    tick_screen_screen00,
 };
 
 void tick_screen(int screen_index) {

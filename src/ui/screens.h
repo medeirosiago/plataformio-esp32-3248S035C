@@ -9,21 +9,22 @@ extern "C" {
 
 typedef struct _objects_t {
     lv_obj_t *main;
-    lv_obj_t *monkey;
+    lv_obj_t *screen00;
+    lv_obj_t *button_logout;
 } objects_t;
 
 extern objects_t objects;
 
 enum ScreensEnum {
     SCREEN_ID_MAIN = 1,
-    SCREEN_ID_MONKEY = 2,
+    SCREEN_ID_SCREEN00 = 2,
 };
 
 void create_screen_main();
 void tick_screen_main();
 
-void create_screen_monkey();
-void tick_screen_monkey();
+void create_screen_screen00();
+void tick_screen_screen00();
 
 void create_screens();
 void tick_screen(int screen_index);

@@ -2,16 +2,33 @@
 #include <TFT_eSPI.h>
 
 #include <demos/lv_demos.h>
+#include "utils/home-assistant/HomeAssistant.h"
+
 #include "touchpad.h"
 #include "ui/ui.h"
-TFT_eSPI tft = TFT_eSPI(); /* TFT实例 */
+
+TFT_eSPI tft = TFT_eSPI();
+const char *ssid = "Tatakae";
+const char *password = "Gael060515";
+
+// Definindo os estados do sistema
+enum AppState
+{
+  STATE_IDLE,
+  STATE_LOGIN,
+  STATE_MAIN_SCREEN
+};
+
+AppState app_state = STATE_IDLE; // Estado inicial
+
+extern lv_event_t g_eez_event;
+extern bool g_eez_event_login;
 
 /*LVGL: Read the touchpad*/
 void my_touchpad_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
 {
   uint16_t touchX, touchY;
 
-  // bool touched = tft.getTouch( &touchX, &touchY, 600 );
   GT911_Scan();
   if (!touched)
   {
@@ -22,12 +39,10 @@ void my_touchpad_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
     /*Set the coordinates*/
     data->point.x = Dev_Now.X[0];
     data->point.y = Dev_Now.Y[0];
-    // Serial.printf("touch:%d, x_in:%d, y_in:%d, x_out:%d, y_out:%d\r\n", touched, Dev_Now.X[0], Dev_Now.Y[0], data->point.x, data->point.y);
     data->state = LV_INDEV_STATE_PR;
   }
 }
 
-//////////////////////////// DISPLAY ///////////////////////////////
 static const uint16_t screenWidth = 480;
 static const uint16_t screenHeight = 320;
 
@@ -48,11 +63,11 @@ void my_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color
 
   lv_disp_flush_ready(disp);
 }
+
 void setup()
 {
-
-  //  int y;
   Serial.begin(115200);
+  setupWiFi(ssid, password);
 
   //  y = touch.Y();
   String LVGL_Arduino = "Hello Arduino!9999";
@@ -92,19 +107,62 @@ void setup()
   indev_drv.read_cb = my_touchpad_read;
   lv_indev_drv_register(&indev_drv);
 
-  // /* 创建简单标签 */
-  // //    lv_obj_t *label = lv_label_create( lv_scr_act() );
-  // //    lv_label_set_text( label, LVGL_Arduino.c_str() );
-  // //    lv_obj_align( label, LV_ALIGN_CENTER, 0, 0 );
-  // lv_example_btn();
   ui_init();
 
   Serial.println("Setup done");
+  Serial.printf("Memória livre no heap: %d bytes\n", esp_get_free_heap_size());
+  Serial.printf("Tamanho da pilha para a tarefa principal: %d bytes\n", uxTaskGetStackHighWaterMark(NULL));
+}
+
+void verifyMemory()
+{
+  Serial.print("Heap livre: ");
+  Serial.println(esp_get_free_heap_size());
+  delay(5000);
 }
 
 void loop()
 {
-  lv_timer_handler(); /* 让GUI完成它的工作 */
-  ui_tick();
-  delay(10);
+  lv_timer_handler(); // Atualiza a interface LVGL
+  ui_tick();          // Atualização personalizada, se necessário
+  // verifyMemory();
+  lv_obj_t *obj = nullptr; // Variável declarada fora do switch
+
+  // Máquina de estados
+  switch (app_state)
+  {
+  case STATE_IDLE:
+    Serial.println("Waiting for login...");
+    if (g_eez_event_login)
+    {
+      app_state = STATE_LOGIN;
+    }
+    break;
+
+  case STATE_LOGIN:
+    Serial.println("Logging in...");
+    // Executa ações relacionadas ao login
+    obj = lv_event_get_target(&g_eez_event); // Agora usamos a variável externa
+    Serial.printf("Received event from obj: %u\n", obj);
+    tft.fillScreen(TFT_RED);
+    delay(1000);
+
+    // Carrega a tela principal após o login
+    lv_scr_load(objects.screen00);
+    app_state = STATE_MAIN_SCREEN; // Vai para a próxima tela
+    break;
+
+  case STATE_MAIN_SCREEN:
+    Serial.println("Main screen loaded.");
+    // Aqui você pode adicionar lógica para detectar logout
+    if (!g_eez_event_login)
+    {
+      app_state = STATE_IDLE;
+      lv_scr_load(objects.main);
+      g_eez_event_login = false; // Garante que não volte ao login automaticamente
+    }
+    break;
+  }
+
+  delay(100); // Evita sobrecarga no loop
 }
