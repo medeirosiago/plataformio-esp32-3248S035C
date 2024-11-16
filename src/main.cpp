@@ -1,154 +1,119 @@
-#include <lvgl.h>
-#include <TFT_eSPI.h>
+#include <WiFi.h>
+extern "C" {
+  #include "freertos/FreeRTOS.h"
+  #include "freertos/timers.h"
+}
+#include <AsyncMqttClient.h>
 
-#include "touchpad.h"
-#include "ui/ui.h"
+// Configurações de Wi-Fi
+#define WIFI_SSID "Tatakae"
+#define WIFI_PASSWORD "Gael060515"
 
-TFT_eSPI tft = TFT_eSPI();
+// Configurações do MQTT
+#define MQTT_HOST IPAddress(192, 168, 0, 123) // Altere para o IP do seu broker
+#define MQTT_PORT 1883
+#define MQTT_USERNAME "magoia" // Substitua pelo seu username
+#define MQTT_PASSWORD "8191323@@Magoiamon"   // Substitua pela sua senha
+#define MQTT_SUBSCRIBE_TOPIC "home/ar/status" // Tópico que você quer capturar
+#define MQTT_QOS 1 // Nível de Qualidade de Serviço (QoS)
 
+// Objetos globais
+AsyncMqttClient mqttClient;
+TimerHandle_t mqttReconnectTimer;
+TimerHandle_t wifiReconnectTimer;
 
-// Definindo os estados do sistema
-enum AppState
-{
-  STATE_IDLE,
-  STATE_LOGIN,
-  STATE_MAIN_SCREEN
-};
+// Funções de conexão
+void connectToWifi() {
+  Serial.println("[WiFi] Tentando conectar ao Wi-Fi...");
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+}
 
-AppState app_state = STATE_IDLE; // Estado inicial
+void connectToMqtt() {
+  Serial.println("[MQTT] Tentando conectar ao broker MQTT...");
+  mqttClient.connect();
+}
 
-extern lv_event_t g_eez_event;
-extern bool g_eez_event_login;
+// Eventos de Wi-Fi
+void WiFiEvent(WiFiEvent_t event) {
+  Serial.printf("[WiFi-event] Event ID: %d\n", event);
+  switch (event) {
+    case SYSTEM_EVENT_STA_GOT_IP:
+      Serial.println("[WiFi] Conectado com sucesso!");
+      Serial.print("[WiFi] Endereço IP: ");
+      Serial.println(WiFi.localIP());
+      connectToMqtt();
+      break;
 
-/*LVGL: Read the touchpad*/
-void my_touchpad_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
-{
-  uint16_t touchX, touchY;
+    case SYSTEM_EVENT_STA_DISCONNECTED:
+      Serial.println("[WiFi] Conexão perdida. Tentando reconectar...");
+      xTimerStop(mqttReconnectTimer, 0);
+      xTimerStart(wifiReconnectTimer, 0);
+      break;
 
-  GT911_Scan();
-  if (!touched)
-  {
-    data->state = LV_INDEV_STATE_REL;
-  }
-  else
-  {
-    /*Set the coordinates*/
-    data->point.x = Dev_Now.X[0];
-    data->point.y = Dev_Now.Y[0];
-    data->state = LV_INDEV_STATE_PR;
+    default:
+      Serial.println("[WiFi] Evento não tratado.");
+      break;
   }
 }
 
-static const uint16_t screenWidth = 480;
-static const uint16_t screenHeight = 320;
+// Eventos de conexão MQTT
+void onMqttConnect(bool sessionPresent) {
+  Serial.println("[MQTT] Conectado ao broker MQTT.");
+  Serial.printf("[MQTT] Sessão presente: %d\n", sessionPresent);
 
-static lv_disp_draw_buf_t draw_buf;
-static lv_color_t buf[screenWidth * screenHeight / 6];
-// static lv_color_t buf[ screenWidth * 10 ];
-
-/*LVGL: flush to display*/
-void my_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p)
-{
-  uint32_t w = (area->x2 - area->x1 + 1);
-  uint32_t h = (area->y2 - area->y1 + 1);
-
-  tft.startWrite();
-  tft.setAddrWindow(area->x1, area->y1, w, h);
-  tft.pushColors((uint16_t *)&color_p->full, w * h, true);
-  tft.endWrite();
-
-  lv_disp_flush_ready(disp);
+  uint16_t packetIdSub = mqttClient.subscribe(MQTT_SUBSCRIBE_TOPIC, MQTT_QOS); // Assinar o tópico
+  Serial.printf("[MQTT] Inscrição enviada para o tópico '%s' (QoS %d), Packet ID: %d\n", MQTT_SUBSCRIBE_TOPIC, MQTT_QOS, packetIdSub);
 }
 
-void setup()
-{
+void onMqttDisconnect(AsyncMqttClientDisconnectReason reason) {
+  Serial.printf("[MQTT] Desconectado. Motivo: %d\n", (int)reason);
+
+  if (WiFi.isConnected()) {
+    Serial.println("[MQTT] Reagendando conexão ao MQTT...");
+    xTimerStart(mqttReconnectTimer, 0);
+  }
+}
+
+void onMqttSubscribe(uint16_t packetId, uint8_t qos) {
+  Serial.printf("[MQTT] Inscrição confirmada (Packet ID: %d, QoS: %d)\n", packetId, qos);
+}
+
+void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties properties, size_t len, size_t index, size_t total) {
+  Serial.println("[MQTT] Mensagem recebida:");
+  Serial.printf("  Tópico: %s\n", topic);
+  Serial.printf("  QoS: %d | Retain: %d | Comprimento: %d\n", properties.qos, properties.retain, len);
+  Serial.print("  Payload: ");
+  for (size_t i = 0; i < len; i++) {
+    Serial.print(payload[i]);
+  }
+  Serial.println();
+}
+
+void onMqttPublish(uint16_t packetId) {
+  Serial.printf("[MQTT] Publicação confirmada (Packet ID: %d)\n", packetId);
+}
+
+void setup() {
   Serial.begin(115200);
+  Serial.println("\n[Setup] Inicializando...");
 
-  //  y = touch.Y();
-  String LVGL_Arduino = "Hello Arduino!9999";
-  Serial.println(LVGL_Arduino);
-  delay(100);
-  LVGL_Arduino += String('V') + lv_version_major() + "." + lv_version_minor() + "." + lv_version_patch();
+  mqttReconnectTimer = xTimerCreate("mqttTimer", pdMS_TO_TICKS(2000), pdFALSE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(connectToMqtt));
+  wifiReconnectTimer = xTimerCreate("wifiTimer", pdMS_TO_TICKS(2000), pdFALSE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(connectToWifi));
 
-  Serial.println("I am LVGL_Arduino");
-  GT911_Init_Touchpad();
-  lv_init();
-  tft.begin();
-  tft.setRotation(1);
-  tft.fillScreen(TFT_RED);
-  delay(500);
-  tft.fillScreen(TFT_GREEN);
-  delay(500);
-  tft.fillScreen(TFT_BLUE);
-  delay(500);
-  tft.fillScreen(TFT_BLACK);
-  tft.drawRect(0, 0, 320, 480, TFT_RED);
-  delay(500);
+  WiFi.onEvent(WiFiEvent);
 
-  lv_disp_draw_buf_init(&draw_buf, buf, NULL, screenWidth * screenHeight / 6);
+  mqttClient.onConnect(onMqttConnect);
+  mqttClient.onDisconnect(onMqttDisconnect);
+  mqttClient.onSubscribe(onMqttSubscribe);
+  mqttClient.onMessage(onMqttMessage);
+  mqttClient.onPublish(onMqttPublish);
 
-  static lv_disp_drv_t disp_drv;
-  lv_disp_drv_init(&disp_drv);
+  // Configurar servidor MQTT
+  mqttClient.setServer(MQTT_HOST, MQTT_PORT);
+  mqttClient.setCredentials(MQTT_USERNAME, MQTT_PASSWORD); // Adiciona autenticação
 
-  disp_drv.hor_res = screenWidth;
-  disp_drv.ver_res = screenHeight;
-  disp_drv.flush_cb = my_disp_flush;
-  disp_drv.draw_buf = &draw_buf;
-  lv_disp_drv_register(&disp_drv);
-
-  static lv_indev_drv_t indev_drv;
-  lv_indev_drv_init(&indev_drv);
-  indev_drv.type = LV_INDEV_TYPE_POINTER;
-  indev_drv.read_cb = my_touchpad_read;
-  lv_indev_drv_register(&indev_drv);
-
-  ui_init();
-
-  Serial.println("Setup done");
+  connectToWifi();
 }
 
-void loop()
-{
-  lv_timer_handler(); // Atualiza a interface LVGL
-  ui_tick();          // Atualização personalizada, se necessário
-  // verifyMemory();
-  lv_obj_t *obj = nullptr; // Variável declarada fora do switch
-
-  // Máquina de estados
-  switch (app_state)
-  {
-  case STATE_IDLE:
-    Serial.println("Waiting for login...");
-    if (g_eez_event_login)
-    {
-      app_state = STATE_LOGIN;
-    }
-    break;
-
-  case STATE_LOGIN:
-    Serial.println("Logging in...");
-    // Executa ações relacionadas ao login
-    obj = lv_event_get_target(&g_eez_event); // Agora usamos a variável externa
-    Serial.printf("Received event from obj: %u\n", obj);
-    tft.fillScreen(TFT_RED);
-    delay(1000);
-
-    // Carrega a tela principal após o login
-    lv_scr_load(objects.screen00);
-    app_state = STATE_MAIN_SCREEN; // Vai para a próxima tela
-    break;
-
-  case STATE_MAIN_SCREEN:
-    Serial.println("Main screen loaded.");
-    // Aqui você pode adicionar lógica para detectar logout
-    if (!g_eez_event_login)
-    {
-      app_state = STATE_IDLE;
-      lv_scr_load(objects.main);
-      g_eez_event_login = false; // Garante que não volte ao login automaticamente
-    }
-    break;
-  }
-
-  delay(100); // Evita sobrecarga no loop
+void loop() {
 }
