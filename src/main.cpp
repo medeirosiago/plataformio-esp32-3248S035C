@@ -1,15 +1,11 @@
 #include <lvgl.h>
 #include <TFT_eSPI.h>
 
-#include <demos/lv_demos.h>
-#include "utils/home-assistant/HomeAssistant.h"
-
 #include "touchpad.h"
 #include "ui/ui.h"
 
 TFT_eSPI tft = TFT_eSPI();
-const char *ssid = "Tatakae";
-const char *password = "Gael060515";
+
 
 // Definindo os estados do sistema
 enum AppState
@@ -67,7 +63,6 @@ void my_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color
 void setup()
 {
   Serial.begin(115200);
-  setupWiFi(ssid, password);
 
   //  y = touch.Y();
   String LVGL_Arduino = "Hello Arduino!9999";
@@ -110,15 +105,6 @@ void setup()
   ui_init();
 
   Serial.println("Setup done");
-  Serial.printf("Memória livre no heap: %d bytes\n", esp_get_free_heap_size());
-  Serial.printf("Tamanho da pilha para a tarefa principal: %d bytes\n", uxTaskGetStackHighWaterMark(NULL));
-}
-
-void verifyMemory()
-{
-  Serial.print("Heap livre: ");
-  Serial.println(esp_get_free_heap_size());
-  delay(5000);
 }
 
 void loop()

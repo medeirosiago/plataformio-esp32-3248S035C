@@ -1,6 +1,4 @@
 #include "actions.h"
-#include <stdbool.h>
-
 
 lv_event_t g_eez_event = {};
 bool g_eez_event_login = false;

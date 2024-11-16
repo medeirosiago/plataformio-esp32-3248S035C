@@ -1,6 +1,6 @@
 {
   "navigation": {
-    "selectedUserPageObject": "[screeen.eez-project]:/userPages/1",
+    "selectedUserPageObject": "[screeen.eez-project]:/userPages/0",
     "selectedActionObject": "[screeen.eez-project]:/actions/0",
     "selectedBitmapObject": "[screeen.eez-project]:/bitmaps/4",
     "subnavigationSelectedItems": {
@@ -192,7 +192,7 @@
             {
               "type": "tabset",
               "id": "EDITORS",
-              "selected": 1,
+              "selected": 2,
               "enableDeleteWhenEmpty": false,
               "enableClose": false,
               "children": [
@@ -1023,9 +1023,7 @@
     "[screeen.eez-project]:/userPages/1[flow-state]": {
       "selection": {
         "0": {
-          "1": {
-            "$selected": true
-          }
+          "1": {}
         }
       },
       "transform": {
