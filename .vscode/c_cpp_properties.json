@@ -10,6 +10,7 @@
             "includePath": [
                 "C:/Users/iagom/OneDrive/Documentos/PlatformIO/Projects/plataformio-esp32-3248S035C/src",
                 "C:/Users/iagom/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
+                "C:/Users/iagom/OneDrive/Documentos/PlatformIO/Projects/plataformio-esp32-3248S035C/.pio/libdeps/esp32-3248S035C/ArduinoJson/src",
                 "C:/Users/iagom/OneDrive/Documentos/PlatformIO/Projects/plataformio-esp32-3248S035C/.pio/libdeps/esp32-3248S035C/AsyncMqttClient-esphome/src",
                 "C:/Users/iagom/OneDrive/Documentos/PlatformIO/Projects/plataformio-esp32-3248S035C/.pio/libdeps/esp32-3248S035C/AsyncTCP-esphome/src",
                 "C:/Users/iagom/OneDrive/Documentos/PlatformIO/Projects/plataformio-esp32-3248S035C/.pio/libdeps/esp32-3248S035C/TFT_eSPI",
@@ -250,6 +251,7 @@
                 "path": [
                     "C:/Users/iagom/OneDrive/Documentos/PlatformIO/Projects/plataformio-esp32-3248S035C/src",
                     "C:/Users/iagom/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
+                    "C:/Users/iagom/OneDrive/Documentos/PlatformIO/Projects/plataformio-esp32-3248S035C/.pio/libdeps/esp32-3248S035C/ArduinoJson/src",
                     "C:/Users/iagom/OneDrive/Documentos/PlatformIO/Projects/plataformio-esp32-3248S035C/.pio/libdeps/esp32-3248S035C/AsyncMqttClient-esphome/src",
                     "C:/Users/iagom/OneDrive/Documentos/PlatformIO/Projects/plataformio-esp32-3248S035C/.pio/libdeps/esp32-3248S035C/AsyncTCP-esphome/src",
                     "C:/Users/iagom/OneDrive/Documentos/PlatformIO/Projects/plataformio-esp32-3248S035C/.pio/libdeps/esp32-3248S035C/TFT_eSPI",
@@ -581,7 +583,7 @@
                 "ARDUINO=10812",
                 "ARDUINO_VARIANT=\"esp32\"",
                 "ARDUINO_BOARD=\"esp32-3248S035C\"",
-                "ARDUINO_PARTITION_default",
+                "ARDUINO_PARTITION_partitions",
                 ""
             ],
             "cStandard": "gnu99",

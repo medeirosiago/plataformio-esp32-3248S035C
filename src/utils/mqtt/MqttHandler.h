@@ -1,55 +1,63 @@
 #ifndef MQTT_HANDLER_H
 #define MQTT_HANDLER_H
 
+#include <ArduinoJson.h>
 #include <AsyncMqttClient.h>
 #include <WiFi.h>
-#include "freertos/FreeRTOS.h"
-#include "freertos/timers.h"
+
+// Estrutura para armazenar o status do clima
+struct ClimateStatus {
+    bool valid = false;
+    String power;
+    float setTemperature = 0.0;
+    float currentTemperature = 0.0;
+    String fanMode;
+    bool tornado = false;
+};
 
 class MqttHandler {
 public:
-  MqttHandler(const char* ssid, const char* password, const IPAddress& mqttHost, 
-              uint16_t mqttPort, const char* mqttUsername, const char* mqttPassword, 
-              const char* subscribeTopic, uint8_t qos);
-  void begin();
-  String getLastPayload();
+    MqttHandler(const char *ssid, const char *password, const IPAddress &mqttHost,
+                uint16_t mqttPort, const char *mqttUsername, const char *mqttPassword,
+                const char *subscribeTopic, uint8_t qos);
+
+    void begin();
+    ClimateStatus getClimateStatus() const;
 
 private:
-  // Wi-Fi
-  const char* ssid;
-  const char* password;
+    void connectToWifi();
+    void connectToMqtt();
+    void handleWifiEvent(WiFiEvent_t event);
+    void handleMqttConnect(bool sessionPresent);
+    void handleMqttDisconnect(AsyncMqttClientDisconnectReason reason);
+    void handleMqttMessage(char *topic, char *payload, size_t len);
+    void handlePayloadTimer();
+    static void payloadTimerCallback(TimerHandle_t xTimer);
 
-  // MQTT
-  IPAddress mqttHost;
-  uint16_t mqttPort;
-  const char* mqttUsername;
-  const char* mqttPassword;
-  const char* subscribeTopic;
-  uint8_t qos;
+    // Funções para extração de valores do payload
+    String extractValue(const String &payload, const String &key);
+    float extractFloatValue(const String &payload, const String &key);
 
-  AsyncMqttClient mqttClient;
-  TimerHandle_t mqttReconnectTimer;
-  TimerHandle_t wifiReconnectTimer;
-  TimerHandle_t payloadTimer;
+    // Parâmetros de conexão WiFi e MQTT
+    const char *ssid;
+    const char *password;
+    IPAddress mqttHost;
+    uint16_t mqttPort;
+    const char *mqttUsername;
+    const char *mqttPassword;
+    const char *subscribeTopic;
+    uint8_t qos;
 
-  String lastPayload;
+    // Status do clima
+    ClimateStatus climateStatus;
 
-  void connectToWifi();
-  void connectToMqtt();
-
-  // Callbacks
-  static void wifiEvent(WiFiEvent_t event, MqttHandler* handler);
-  static void mqttConnect(bool sessionPresent, MqttHandler* handler);
-  static void mqttDisconnect(AsyncMqttClientDisconnectReason reason, MqttHandler* handler);
-  static void mqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties properties, size_t len, size_t index, size_t total, MqttHandler* handler);
-  static void payloadTimerCallback(TimerHandle_t xTimer);
-
-  // Helper methods
-  void handleWifiEvent(WiFiEvent_t event);
-  void handleMqttConnect(bool sessionPresent);
-  void handleMqttDisconnect(AsyncMqttClientDisconnectReason reason);
-  void handleMqttMessage(char* topic, char* payload, size_t len);
-  void handlePayloadTimer();
+    // Timers
+    TimerHandle_t mqttReconnectTimer;
+    TimerHandle_t wifiReconnectTimer;
+    TimerHandle_t payloadTimer;
+    
+    // MQTT Client
+    AsyncMqttClient mqttClient;
 };
 
 #endif // MQTT_HANDLER_H

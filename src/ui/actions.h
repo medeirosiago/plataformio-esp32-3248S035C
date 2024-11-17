@@ -9,6 +9,7 @@ extern "C" {
 
 extern void action_login(lv_event_t * e);
 extern void action_logout(lv_event_t * e);
+extern void action_set_temperature_payload(lv_event_t * e);
 
 
 #ifdef __cplusplus
