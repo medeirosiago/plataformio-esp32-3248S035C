@@ -112,7 +112,7 @@ void printPayloadCallback(TimerHandle_t xTimer) {
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("\n[Setup] Inicializando...");
+  Serial.println("\n[Setup MQTT] Inicializando...");
 
   mqttReconnectTimer = xTimerCreate("mqttTimer", pdMS_TO_TICKS(2000), pdFALSE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(connectToMqtt));
   wifiReconnectTimer = xTimerCreate("wifiTimer", pdMS_TO_TICKS(2000), pdFALSE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(connectToWifi));
