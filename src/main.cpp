@@ -21,6 +21,10 @@ extern "C" {
 AsyncMqttClient mqttClient;
 TimerHandle_t mqttReconnectTimer;
 TimerHandle_t wifiReconnectTimer;
+TimerHandle_t printPayloadTimer;
+
+// Variável para armazenar a última mensagem recebida
+String lastPayload = "";
 
 // Funções de conexão
 void connectToWifi() {
@@ -82,15 +86,28 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
   Serial.println("[MQTT] Mensagem recebida:");
   Serial.printf("  Tópico: %s\n", topic);
   Serial.printf("  QoS: %d | Retain: %d | Comprimento: %d\n", properties.qos, properties.retain, len);
-  Serial.print("  Payload: ");
+
+  // Salvar o payload na variável global
+  lastPayload = "";
   for (size_t i = 0; i < len; i++) {
-    Serial.print(payload[i]);
+    lastPayload += payload[i];
   }
-  Serial.println();
+
+  Serial.printf("  Payload: %s\n", lastPayload.c_str());
 }
 
 void onMqttPublish(uint16_t packetId) {
   Serial.printf("[MQTT] Publicação confirmada (Packet ID: %d)\n", packetId);
+}
+
+// Função do timer para imprimir o payload a cada 5 segundos
+void printPayloadCallback(TimerHandle_t xTimer) {
+  if (lastPayload != "") {
+    Serial.println("[Timer] Última mensagem recebida:");
+    Serial.println(lastPayload);
+  } else {
+    Serial.println("[Timer] Nenhuma mensagem recebida ainda.");
+  }
 }
 
 void setup() {
@@ -99,6 +116,11 @@ void setup() {
 
   mqttReconnectTimer = xTimerCreate("mqttTimer", pdMS_TO_TICKS(2000), pdFALSE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(connectToMqtt));
   wifiReconnectTimer = xTimerCreate("wifiTimer", pdMS_TO_TICKS(2000), pdFALSE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(connectToWifi));
+
+  // Timer para imprimir o payload a cada 5 segundos
+  printPayloadTimer = xTimerCreate("printPayloadTimer", pdMS_TO_TICKS(5000), pdTRUE, (void*)0, reinterpret_cast<TimerCallbackFunction_t>(printPayloadCallback));
+
+  xTimerStart(printPayloadTimer, 0);
 
   WiFi.onEvent(WiFiEvent);
 
