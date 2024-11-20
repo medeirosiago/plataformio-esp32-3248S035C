@@ -3,6 +3,7 @@
 		"*.embeddedhtml": "html",
 		"stdint.h": "c",
 		"stdbool.h": "c",
-		"actions.h": "c"
+		"actions.h": "c",
+		"vars.h": "c"
 	}
 }

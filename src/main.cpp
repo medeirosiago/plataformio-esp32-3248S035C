@@ -7,30 +7,6 @@
 
 #include "utils/mqtt/MqttHandler.h"
 
-// Variáveis globais para armazenar os valores
-static float air_temperature = 0.0;
-static float room_temperature = 0.0;
-
-float get_var_air_temperature() {
-    return air_temperature;
-}
-
-void set_var_air_temperature(float value) {
-    air_temperature = value;
-    // Atualizar a interface do LVGL com o novo valor
-    lv_event_send(objects.air_temperature, LV_EVENT_VALUE_CHANGED, &air_temperature);
-}
-
-float get_var_room_temperature() {
-    return room_temperature;
-}
-
-void set_var_room_temperature(float value) {
-    room_temperature = value;
-    // Atualizar a interface do LVGL com o novo valor
-    lv_event_send(objects.air_temperature, LV_EVENT_VALUE_CHANGED, &room_temperature);
-}
-
 /**
  * MQTT Settings
  */

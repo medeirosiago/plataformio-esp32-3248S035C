@@ -216,6 +216,7 @@
 //     }
 // }
 #include "MqttHandler.h"
+#include "ui/vars.h" // Inclui as variáveis e funções get/set para air_temperature e room_temperature
 
 const char *ssid = "Tatakae";
 const char *password = "Gael060515";
@@ -232,17 +233,36 @@ void callback(char *topic, byte *message, unsigned int length)
     Serial.print("Mensagem recebida no tópico: ");
     Serial.print(topic);
     Serial.print(". Mensagem: ");
-    String messageTemp;
+
+    char messageTemp[256]; // Tamanho máximo (escolha um tamanho adequado para sua aplicação)
+
+    // Certifique-se de que a mensagem seja menor que o tamanho do buffer
+    if (length >= sizeof(messageTemp))
+    {
+        Serial.println("Erro: Mensagem recebida é maior do que o buffer permite.");
+        return;
+    }
 
     for (int i = 0; i < length; i++)
     {
         Serial.print((char)message[i]);
-        messageTemp += (char)message[i];
+        messageTemp[i] = (char)message[i];
     }
+    messageTemp[length] = '\0'; // Adiciona o terminador nulo ao final da string
     Serial.println();
 
     // Aqui você pode adicionar lógica para processar a mensagem recebida
-    if (String(topic) == "home/ar/status")
+    if (String(topic) == "home/ar/temperature")
+    {
+        Serial.println("Atualizando a temperatura do ar...");
+        Serial.println("messageTemp:");
+        Serial.println(messageTemp);
+
+        set_var_air_temperature(messageTemp); // Atualiza a variável global usando o setter
+        Serial.printf("Nova temperatura do ar:");
+        Serial.printf(get_var_air_temperature());
+    }
+    else if (String(topic) == "home/ar/status")
     {
         // Por exemplo, você pode atualizar variáveis globais com base na mensagem recebida
         Serial.println("Processando a mensagem do ar condicionado...");
@@ -284,6 +304,7 @@ void mqtt_client_loop()
         {
             Serial.println("MQTT Connected");
             client.subscribe("home/ar/status");
+            client.subscribe("home/ar/temperature");
         }
         else
         {

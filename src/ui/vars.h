@@ -21,10 +21,11 @@ enum FlowGlobalVariables {
 
 // Native global variables
 
-extern float get_var_air_temperature();
-extern void set_var_air_temperature(float value);
-extern float get_var_room_temperature();
-extern void set_var_room_temperature(float value);
+extern const char *get_var_air_temperature();
+extern void set_var_air_temperature(const char *value);
+extern const char *get_var_room_temperature();
+extern void set_var_room_temperature(const char *value);
+
 
 #ifdef __cplusplus
 }

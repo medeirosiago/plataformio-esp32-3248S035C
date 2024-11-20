@@ -12,7 +12,6 @@ typedef struct _objects_t {
     lv_obj_t *air_temperature;
     lv_obj_t *screen00;
     lv_obj_t *obj0;
-    lv_obj_t *obj1;
     lv_obj_t *button_logout;
 } objects_t;
 
