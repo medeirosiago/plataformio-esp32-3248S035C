@@ -9,7 +9,9 @@
             "name": "PlatformIO",
             "includePath": [
                 "C:/Users/iagom/OneDrive/Documentos/PlatformIO/Projects/plataformio-esp32-3248S035C/src",
+                "C:/Users/iagom/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                 "C:/Users/iagom/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
+                "C:/Users/iagom/OneDrive/Documentos/PlatformIO/Projects/plataformio-esp32-3248S035C/.pio/libdeps/esp32-3248S035C/PubSubClient/src",
                 "C:/Users/iagom/OneDrive/Documentos/PlatformIO/Projects/plataformio-esp32-3248S035C/.pio/libdeps/esp32-3248S035C/ArduinoJson/src",
                 "C:/Users/iagom/OneDrive/Documentos/PlatformIO/Projects/plataformio-esp32-3248S035C/.pio/libdeps/esp32-3248S035C/AsyncMqttClient-esphome/src",
                 "C:/Users/iagom/OneDrive/Documentos/PlatformIO/Projects/plataformio-esp32-3248S035C/.pio/libdeps/esp32-3248S035C/AsyncTCP-esphome/src",
@@ -243,14 +245,15 @@
                 "C:/Users/iagom/.platformio/packages/framework-arduinoespressif32/libraries/WebServer/src",
                 "C:/Users/iagom/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src",
                 "C:/Users/iagom/.platformio/packages/framework-arduinoespressif32/libraries/WiFiProv/src",
-                "C:/Users/iagom/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                 ""
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
                     "C:/Users/iagom/OneDrive/Documentos/PlatformIO/Projects/plataformio-esp32-3248S035C/src",
+                    "C:/Users/iagom/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                     "C:/Users/iagom/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
+                    "C:/Users/iagom/OneDrive/Documentos/PlatformIO/Projects/plataformio-esp32-3248S035C/.pio/libdeps/esp32-3248S035C/PubSubClient/src",
                     "C:/Users/iagom/OneDrive/Documentos/PlatformIO/Projects/plataformio-esp32-3248S035C/.pio/libdeps/esp32-3248S035C/ArduinoJson/src",
                     "C:/Users/iagom/OneDrive/Documentos/PlatformIO/Projects/plataformio-esp32-3248S035C/.pio/libdeps/esp32-3248S035C/AsyncMqttClient-esphome/src",
                     "C:/Users/iagom/OneDrive/Documentos/PlatformIO/Projects/plataformio-esp32-3248S035C/.pio/libdeps/esp32-3248S035C/AsyncTCP-esphome/src",
@@ -484,7 +487,6 @@
                     "C:/Users/iagom/.platformio/packages/framework-arduinoespressif32/libraries/WebServer/src",
                     "C:/Users/iagom/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src",
                     "C:/Users/iagom/.platformio/packages/framework-arduinoespressif32/libraries/WiFiProv/src",
-                    "C:/Users/iagom/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                     ""
                 ]
             },

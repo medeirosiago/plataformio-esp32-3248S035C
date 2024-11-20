@@ -105,7 +105,15 @@
         "objID": "8b5f5866-76c4-4f8a-d20b-67f120376ed5",
         "name": "air_temperature",
         "description": "temperatura atual do ar",
-        "type": "float",
+        "type": "string",
+        "defaultValue": "0",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "07140d77-5a1b-47da-a860-03a3433d0c5d",
+        "name": "room_temperature",
+        "type": "string",
         "defaultValue": "0",
         "persistent": false,
         "native": false
@@ -251,6 +259,305 @@
       "height": 320
     },
     {
+      "objID": "482a98c3-5e82-44c9-bfcb-dd20a8ed767b",
+      "components": [
+        {
+          "objID": "6fdbbc94-7502-4e15-c433-30c5e1e904bf",
+          "type": "LVGLScreenWidget",
+          "left": 0,
+          "top": 0,
+          "width": 480,
+          "height": 320,
+          "customInputs": [],
+          "customOutputs": [],
+          "style": {
+            "objID": "110c6b6d-a3f8-49aa-9341-b399e011e403",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": [],
+          "leftUnit": "px",
+          "topUnit": "px",
+          "widthUnit": "px",
+          "heightUnit": "px",
+          "children": [
+            {
+              "objID": "e630b0ac-4169-4e10-87ae-4be7c67b7d41",
+              "type": "LVGLContainerWidget",
+              "left": 21,
+              "top": 25,
+              "width": 219,
+              "height": 94,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "82b14b6a-e107-4862-9206-76b0bda6d6b3",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": []
+              },
+              "timeline": [],
+              "eventHandlers": [],
+              "leftUnit": "px",
+              "topUnit": "px",
+              "widthUnit": "px",
+              "heightUnit": "px",
+              "children": [
+                {
+                  "objID": "a6da75db-d464-4343-9f15-5861916b4551",
+                  "type": "LVGLLabelWidget",
+                  "left": 102,
+                  "top": 58,
+                  "width": 16,
+                  "height": 16,
+                  "customInputs": [],
+                  "customOutputs": [],
+                  "style": {
+                    "objID": "247c5f66-d1de-4316-b45b-f8812c4df425",
+                    "useStyle": "default",
+                    "conditionalStyles": [],
+                    "childStyles": []
+                  },
+                  "timeline": [],
+                  "eventHandlers": [],
+                  "leftUnit": "px",
+                  "topUnit": "px",
+                  "widthUnit": "content",
+                  "heightUnit": "content",
+                  "children": [],
+                  "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+                  "hiddenFlagType": "literal",
+                  "clickableFlagType": "literal",
+                  "flagScrollbarMode": "",
+                  "flagScrollDirection": "",
+                  "scrollSnapX": "",
+                  "scrollSnapY": "",
+                  "checkedStateType": "literal",
+                  "disabledStateType": "literal",
+                  "states": "",
+                  "localStyles": {
+                    "objID": "86bca5f5-1df6-474e-baf8-f7f9a4168cd4"
+                  },
+                  "group": "",
+                  "groupIndex": 0,
+                  "text": "air_temperature",
+                  "textType": "expression",
+                  "longMode": "WRAP",
+                  "recolor": false,
+                  "previewValue": "23"
+                },
+                {
+                  "objID": "39d501a3-cebd-4fdb-8f7e-bad0a38126aa",
+                  "type": "LVGLLabelWidget",
+                  "left": 42,
+                  "top": 14,
+                  "width": 135,
+                  "height": 16,
+                  "customInputs": [],
+                  "customOutputs": [],
+                  "style": {
+                    "objID": "a251dd29-d8b8-45d6-db29-ee4c2997ca9a",
+                    "useStyle": "default",
+                    "conditionalStyles": [],
+                    "childStyles": []
+                  },
+                  "timeline": [],
+                  "eventHandlers": [],
+                  "leftUnit": "px",
+                  "topUnit": "px",
+                  "widthUnit": "content",
+                  "heightUnit": "content",
+                  "children": [],
+                  "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+                  "hiddenFlagType": "literal",
+                  "clickableFlagType": "literal",
+                  "flagScrollbarMode": "",
+                  "flagScrollDirection": "",
+                  "scrollSnapX": "",
+                  "scrollSnapY": "",
+                  "checkedStateType": "literal",
+                  "disabledStateType": "literal",
+                  "states": "",
+                  "localStyles": {
+                    "objID": "9a7f8486-f0d1-4a6e-fed8-9a22c67ae7c2"
+                  },
+                  "group": "",
+                  "groupIndex": 0,
+                  "text": "Temperatura do ar",
+                  "textType": "literal",
+                  "longMode": "WRAP",
+                  "recolor": false
+                }
+              ],
+              "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+              "hiddenFlagType": "literal",
+              "clickableFlag": true,
+              "clickableFlagType": "literal",
+              "flagScrollbarMode": "",
+              "flagScrollDirection": "",
+              "scrollSnapX": "",
+              "scrollSnapY": "",
+              "checkedStateType": "literal",
+              "disabledStateType": "literal",
+              "states": "",
+              "localStyles": {
+                "objID": "a198bb0e-4eb5-4b85-b767-d8878d36ee58"
+              },
+              "group": "",
+              "groupIndex": 0
+            },
+            {
+              "objID": "f9aeb8f1-6d45-4ad5-b25a-df761fb31b4c",
+              "type": "LVGLContainerWidget",
+              "left": 251,
+              "top": 26,
+              "width": 219,
+              "height": 94,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "04bf1904-9a0a-48dd-eaef-1a64320a6bf2",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": []
+              },
+              "timeline": [],
+              "eventHandlers": [],
+              "leftUnit": "px",
+              "topUnit": "px",
+              "widthUnit": "px",
+              "heightUnit": "px",
+              "children": [
+                {
+                  "objID": "1ad4ee4d-079f-416d-8adb-59216c40f2ce",
+                  "type": "LVGLLabelWidget",
+                  "left": 102,
+                  "top": 58,
+                  "width": 16,
+                  "height": 16,
+                  "customInputs": [],
+                  "customOutputs": [],
+                  "style": {
+                    "objID": "c123587e-170e-4a2f-9dbe-9fe1cb7a40fe",
+                    "useStyle": "default",
+                    "conditionalStyles": [],
+                    "childStyles": []
+                  },
+                  "timeline": [],
+                  "eventHandlers": [],
+                  "leftUnit": "px",
+                  "topUnit": "px",
+                  "widthUnit": "content",
+                  "heightUnit": "content",
+                  "children": [],
+                  "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+                  "hiddenFlagType": "literal",
+                  "clickableFlagType": "literal",
+                  "flagScrollbarMode": "",
+                  "flagScrollDirection": "",
+                  "scrollSnapX": "",
+                  "scrollSnapY": "",
+                  "checkedStateType": "literal",
+                  "disabledStateType": "literal",
+                  "states": "",
+                  "localStyles": {
+                    "objID": "5f23b405-6198-4a57-ce83-25af679bc974"
+                  },
+                  "group": "",
+                  "groupIndex": 0,
+                  "text": "room_temperature",
+                  "textType": "expression",
+                  "longMode": "WRAP",
+                  "recolor": false,
+                  "previewValue": "23"
+                },
+                {
+                  "objID": "56c1282d-14f3-4255-b0c8-310177164984",
+                  "type": "LVGLLabelWidget",
+                  "left": 25,
+                  "top": 13,
+                  "width": 170,
+                  "height": 16,
+                  "customInputs": [],
+                  "customOutputs": [],
+                  "style": {
+                    "objID": "73f15798-269b-4b81-cde4-0378416d72eb",
+                    "useStyle": "default",
+                    "conditionalStyles": [],
+                    "childStyles": []
+                  },
+                  "timeline": [],
+                  "eventHandlers": [],
+                  "leftUnit": "px",
+                  "topUnit": "px",
+                  "widthUnit": "content",
+                  "heightUnit": "content",
+                  "children": [],
+                  "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+                  "hiddenFlagType": "literal",
+                  "clickableFlagType": "literal",
+                  "flagScrollbarMode": "",
+                  "flagScrollDirection": "",
+                  "scrollSnapX": "",
+                  "scrollSnapY": "",
+                  "checkedStateType": "literal",
+                  "disabledStateType": "literal",
+                  "states": "",
+                  "localStyles": {
+                    "objID": "20b3df21-e57f-4d0d-d370-f8aaebf9251f"
+                  },
+                  "group": "",
+                  "groupIndex": 0,
+                  "text": "Temperatura do quarto",
+                  "textType": "literal",
+                  "longMode": "WRAP",
+                  "recolor": false
+                }
+              ],
+              "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+              "hiddenFlagType": "literal",
+              "clickableFlag": true,
+              "clickableFlagType": "literal",
+              "flagScrollbarMode": "",
+              "flagScrollDirection": "",
+              "scrollSnapX": "",
+              "scrollSnapY": "",
+              "checkedStateType": "literal",
+              "disabledStateType": "literal",
+              "states": "",
+              "localStyles": {
+                "objID": "4406ce12-08da-4bdf-9b1a-3cb1efe88a5f"
+              },
+              "group": "",
+              "groupIndex": 0
+            }
+          ],
+          "widgetFlags": "CLICKABLE|PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLLABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER",
+          "hiddenFlagType": "literal",
+          "clickableFlag": true,
+          "clickableFlagType": "literal",
+          "checkedStateType": "literal",
+          "disabledStateType": "literal",
+          "states": "",
+          "localStyles": {
+            "objID": "ad677afd-b7ad-4c82-af89-7c925e044894"
+          },
+          "groupIndex": 0
+        }
+      ],
+      "connectionLines": [],
+      "localVariables": [],
+      "userProperties": [],
+      "name": "air_temperature",
+      "left": 0,
+      "top": 0,
+      "width": 480,
+      "height": 320,
+      "isUsedAsUserWidget": false
+    },
+    {
       "objID": "ebde223a-31e3-4fa6-b12c-ebaea83a4c96",
       "components": [
         {
@@ -382,16 +689,16 @@
               "groupIndex": 0
             },
             {
-              "objID": "ff2aca60-4c83-4bf8-b231-b343d19dacbe",
-              "type": "LVGLContainerWidget",
-              "left": 50,
-              "top": 68,
-              "width": 100,
-              "height": 50,
+              "objID": "476a3dc9-7d14-4f19-b7e9-5cf5030e54e3",
+              "type": "LVGLLabelWidget",
+              "left": 29,
+              "top": 62,
+              "width": 29,
+              "height": 16,
               "customInputs": [],
               "customOutputs": [],
               "style": {
-                "objID": "d1de6e97-1dee-47e6-d35a-ad76467635e3",
+                "objID": "027945b8-d6ec-4e42-878e-81a91b294f24",
                 "useStyle": "default",
                 "conditionalStyles": [],
                 "childStyles": []
@@ -400,12 +707,11 @@
               "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
-              "widthUnit": "px",
-              "heightUnit": "px",
+              "widthUnit": "content",
+              "heightUnit": "content",
               "children": [],
               "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
               "hiddenFlagType": "literal",
-              "clickableFlag": true,
               "clickableFlagType": "literal",
               "flagScrollbarMode": "",
               "flagScrollDirection": "",
@@ -415,104 +721,21 @@
               "disabledStateType": "literal",
               "states": "",
               "localStyles": {
-                "objID": "4d2eccd5-cc79-4523-80fc-593eb88c9ff2"
+                "objID": "93eaf698-66a4-4c2a-d036-bbee8a62dfa5",
+                "definition": {
+                  "MAIN": {
+                    "DEFAULT": {
+                      "min_width": 20
+                    }
+                  }
+                }
               },
               "group": "",
-              "groupIndex": 0
-            },
-            {
-              "objID": "e070154b-5a52-484d-dbbb-8da5be930ab1",
-              "type": "LVGLSpanWidget",
-              "left": 42,
-              "top": 39,
-              "width": 180,
-              "height": 100,
-              "customInputs": [],
-              "customOutputs": [],
-              "style": {
-                "objID": "a62672a4-6ab4-4839-fd63-d359098c4784",
-                "useStyle": "default",
-                "conditionalStyles": [],
-                "childStyles": []
-              },
-              "timeline": [],
-              "eventHandlers": [
-                {
-                  "objID": "9d704525-9d49-4c51-d64c-da38f10db44a",
-                  "eventName": "SCREEN_LOADED",
-                  "handlerType": "action",
-                  "action": "set_temperature_payload",
-                  "userData": 0
-                }
-              ],
-              "identifier": "AIR_TEMP",
-              "leftUnit": "px",
-              "topUnit": "px",
-              "widthUnit": "px",
-              "heightUnit": "px",
-              "children": [
-                {
-                  "objID": "e5a95ab8-c952-4114-8574-9aa97c0dad99",
-                  "type": "LVGLLabelWidget",
-                  "left": 80,
-                  "top": 42,
-                  "width": 18,
-                  "height": 16,
-                  "customInputs": [],
-                  "customOutputs": [],
-                  "style": {
-                    "objID": "74ef4f85-1a58-47fc-efda-312e7bc43370",
-                    "useStyle": "default",
-                    "conditionalStyles": [],
-                    "childStyles": []
-                  },
-                  "locked": false,
-                  "timeline": [],
-                  "eventHandlers": [],
-                  "identifier": "temperatura do ar",
-                  "leftUnit": "px",
-                  "topUnit": "px",
-                  "widthUnit": "content",
-                  "heightUnit": "content",
-                  "children": [],
-                  "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
-                  "hiddenFlagType": "literal",
-                  "clickableFlagType": "literal",
-                  "flagScrollbarMode": "",
-                  "flagScrollDirection": "",
-                  "scrollSnapX": "",
-                  "scrollSnapY": "",
-                  "checkedStateType": "literal",
-                  "disabledStateType": "literal",
-                  "states": "",
-                  "localStyles": {
-                    "objID": "ee33d454-f885-4881-8302-7a290ec1e80d"
-                  },
-                  "group": "",
-                  "groupIndex": 0,
-                  "text": "air_temperature",
-                  "textType": "expression",
-                  "longMode": "WRAP",
-                  "recolor": false,
-                  "previewValue": "00"
-                }
-              ],
-              "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
-              "hiddenFlagType": "literal",
-              "clickableFlag": true,
-              "clickableFlagType": "literal",
-              "flagScrollbarMode": "",
-              "flagScrollDirection": "",
-              "scrollSnapX": "",
-              "scrollSnapY": "",
-              "checkedStateType": "literal",
-              "disabledStateType": "literal",
-              "states": "",
-              "localStyles": {
-                "objID": "5533beee-f55f-4def-ab05-d0d2c4b5c558"
-              },
-              "group": "",
-              "groupIndex": 0
+              "groupIndex": 0,
+              "text": "Text",
+              "textType": "literal",
+              "longMode": "WRAP",
+              "recolor": false
             }
           ],
           "widgetFlags": "CLICKABLE|PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLLABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER",

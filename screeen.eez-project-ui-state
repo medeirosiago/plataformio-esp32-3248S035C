@@ -2,7 +2,8 @@
   "navigation": {
     "selectedUserPageObject": "[screeen.eez-project]:/userPages/1",
     "selectedActionObject": "[screeen.eez-project]:/actions/0",
-    "selectedBitmapObject": "[screeen.eez-project]:/bitmaps/4",
+    "selectedGlobalVariableObject": "[screeen.eez-project]:/variables/globalVariables/0",
+    "selectedBitmapObject": "[screeen.eez-project]:/bitmaps/-1",
     "subnavigationSelectedItems": {
       "variables-tab/sub-navigation/selected-item": "Global"
     }
@@ -25,7 +26,7 @@
           },
           {
             "type": "border",
-            "selected": 2,
+            "selected": 1,
             "size": 265.5,
             "location": "right",
             "children": [
@@ -192,10 +193,20 @@
             {
               "type": "tabset",
               "id": "EDITORS",
-              "selected": 1,
               "enableDeleteWhenEmpty": false,
               "enableClose": false,
               "children": [
+                {
+                  "type": "tab",
+                  "id": "#dc768fe8-a4af-4fc3-b5b6-6bc7f6cadb82",
+                  "name": "air_temperature",
+                  "component": "editor",
+                  "config": {
+                    "objectPath": "[screeen.eez-project]:/userPages/2",
+                    "permanent": false
+                  },
+                  "icon": "svg:page"
+                },
                 {
                   "type": "tab",
                   "id": "#d47a9397-84a7-4e04-aa50-fdcc36b82b45",
@@ -230,8 +241,7 @@
                   },
                   "icon": "svg:page"
                 }
-              ],
-              "active": true
+              ]
             },
             {
               "type": "row",
@@ -252,7 +262,8 @@
                       "enableClose": false,
                       "icon": "svg:properties"
                     }
-                  ]
+                  ],
+                  "active": true
                 },
                 {
                   "type": "tabset",
@@ -789,7 +800,8 @@
                       "component": "styles",
                       "enableClose": false
                     }
-                  ]
+                  ],
+                  "active": true
                 },
                 {
                   "type": "tabset",
@@ -1025,10 +1037,7 @@
         "0": {
           "0": {},
           "1": {
-            "0": {}
-          },
-          "4": {
-            "$selected": true
+            "1": {}
           }
         }
       },
@@ -1036,6 +1045,31 @@
         "translate": {
           "x": -240,
           "y": -160
+        },
+        "scale": 1
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[screeen.eez-project]:/userPages/2[flow-state]": {
+      "selection": {
+        "0": {
+          "0": {
+            "0": {}
+          },
+          "1": {
+            "$selected": true
+          }
+        }
+      },
+      "transform": {
+        "translate": {
+          "x": -240,
+          "y": -1159
         },
         "scale": 1
       },
@@ -1061,6 +1095,8 @@
   "lvglPart": "MAIN",
   "lvglState": "DEFAULT",
   "lvglExpandedPropertiesGroup": [
+    "TEXT",
+    "MISCELLANEOUS",
     "POSITION AND SIZE"
   ],
   "showInactiveFlowsInDebugger": true,

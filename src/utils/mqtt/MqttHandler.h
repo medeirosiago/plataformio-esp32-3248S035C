@@ -1,63 +1,84 @@
-#ifndef MQTT_HANDLER_H
-#define MQTT_HANDLER_H
+// #ifndef MQTT_HANDLER_H
+// #define MQTT_HANDLER_H
 
-#include <ArduinoJson.h>
-#include <AsyncMqttClient.h>
-#include <WiFi.h>
+// #include <ArduinoJson.h>
+// #include <AsyncMqttClient.h>
+// #include <WiFi.h>
 
-// Estrutura para armazenar o status do clima
-struct ClimateStatus {
-    bool valid = false;
-    String power;
-    float setTemperature = 0.0;
-    float currentTemperature = 0.0;
-    String fanMode;
-    bool tornado = false;
-};
+// // Estrutura para armazenar o status do clima
+// struct ClimateStatus {
+//     bool valid = false;
+//     String power;
+//     float setTemperature = 0.0;
+//     float currentTemperature = 0.0;
+//     String fanMode;
+//     bool tornado = false;
+// };
 
-class MqttHandler {
-public:
-    MqttHandler(const char *ssid, const char *password, const IPAddress &mqttHost,
-                uint16_t mqttPort, const char *mqttUsername, const char *mqttPassword,
-                const char *subscribeTopic, uint8_t qos);
+// class MqttHandler {
+// public:
+//     MqttHandler(const char *ssid, const char *password, const IPAddress &mqttHost,
+//                 uint16_t mqttPort, const char *mqttUsername, const char *mqttPassword,
+//                 const char *subscribeTopic, uint8_t qos);
 
-    void begin();
-    ClimateStatus getClimateStatus() const;
+//     void begin();
+//     ClimateStatus getClimateStatus() const;
 
-private:
-    void connectToWifi();
-    void connectToMqtt();
-    void handleWifiEvent(WiFiEvent_t event);
-    void handleMqttConnect(bool sessionPresent);
-    void handleMqttDisconnect(AsyncMqttClientDisconnectReason reason);
-    void handleMqttMessage(char *topic, char *payload, size_t len);
-    void handlePayloadTimer();
-    static void payloadTimerCallback(TimerHandle_t xTimer);
+// private:
+//     void connectToWifi();
+//     void connectToMqtt();
+//     void handleWifiEvent(WiFiEvent_t event);
+//     void handleMqttConnect(bool sessionPresent);
+//     void handleMqttDisconnect(AsyncMqttClientDisconnectReason reason);
+//     void handleMqttMessage(char *topic, char *payload, size_t len);
+//     void handlePayloadTimer();
+//     void setup_wifi();
 
-    // Funções para extração de valores do payload
-    String extractValue(const String &payload, const String &key);
-    float extractFloatValue(const String &payload, const String &key);
+//     static void payloadTimerCallback(TimerHandle_t xTimer);
 
-    // Parâmetros de conexão WiFi e MQTT
-    const char *ssid;
-    const char *password;
-    IPAddress mqttHost;
-    uint16_t mqttPort;
-    const char *mqttUsername;
-    const char *mqttPassword;
-    const char *subscribeTopic;
-    uint8_t qos;
+//     // Funções para extração de valores do payload
+//     String extractValue(const String &payload, const String &key);
+//     float extractFloatValue(const String &payload, const String &key);
 
-    // Status do clima
-    ClimateStatus climateStatus;
+//     // Parâmetros de conexão WiFi e MQTT
+//     const char *ssid;
+//     const char *password;
+//     IPAddress mqttHost;
+//     uint16_t mqttPort;
+//     const char *mqttUsername;
+//     const char *mqttPassword;
+//     const char *subscribeTopic;
+//     uint8_t qos;
 
-    // Timers
-    TimerHandle_t mqttReconnectTimer;
-    TimerHandle_t wifiReconnectTimer;
-    TimerHandle_t payloadTimer;
+//     // Status do clima
+//     ClimateStatus climateStatus;
+
+//     // Timers
+//     TimerHandle_t mqttReconnectTimer;
+//     TimerHandle_t wifiReconnectTimer;
+//     TimerHandle_t payloadTimer;
     
-    // MQTT Client
-    AsyncMqttClient mqttClient;
-};
+//     // MQTT Client
+//     AsyncMqttClient mqttClient;
+// };
 
-#endif // MQTT_HANDLER_H
+// #endif // MQTT_HANDLER_H
+#ifndef MQTTHANDLER_H
+#define MQTTHANDLER_H
+
+#include <WiFi.h>
+#include <PubSubClient.h>
+
+// Declaração das variáveis e funções
+extern const char *ssid;
+extern const char *password;
+extern const char *mqtt_server;
+
+extern WiFiClient espClient;
+extern PubSubClient client;
+
+void setup_wifi();
+void mqtt_client_loop();  // Função para ser chamada no loop principal
+void callback(char *topic, byte *message, unsigned int length);
+
+#endif

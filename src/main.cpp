@@ -34,16 +34,16 @@ void set_var_room_temperature(float value) {
 /**
  * MQTT Settings
  */
-const char *wifiSsid = "Tatakae";
-const char *wifiPassword = "Gael060515";
-IPAddress mqttHost(192, 168, 0, 123); // Altere pelo IP do seu broker MQTT
-uint16_t mqttPort = 1883;             // Porta padrão MQTT
-const char *mqttUsername = "magoia";
-const char *mqttPassword = "8191323@@Magoiamon";
-const char *mqttTopic = "home/ar/status";
-uint8_t qos = 1;
+// const char *wifiSsid = "Tatakae";
+// const char *wifiPassword = "Gael060515";
+// IPAddress mqttHost(192, 168, 0, 123); // Altere pelo IP do seu broker MQTT
+// uint16_t mqttPort = 1883;             // Porta padrão MQTT
+// const char *mqttUsername = "magoia";
+// const char *mqttPassword = "8191323@@Magoiamon";
+// const char *mqttTopic = "home/ar/status";
+// uint8_t qos = 1;
 
-MqttHandler mqttHandler(wifiSsid, wifiPassword, mqttHost, mqttPort, mqttUsername, mqttPassword, mqttTopic, qos);
+// MqttHandler mqttHandler(wifiSsid, wifiPassword, mqttHost, mqttPort, mqttUsername, mqttPassword, mqttTopic, qos);
 
 TFT_eSPI tft = TFT_eSPI();
 
@@ -103,7 +103,7 @@ void setup() {
     LVGL_Arduino += String('V') + lv_version_major() + "." + lv_version_minor() + "." + lv_version_patch();
 
     Serial.println("I am LVGL_Arduino");
-    mqttHandler.begin();
+    setup_wifi();
     GT911_Init_Touchpad();
     lv_init();
     tft.begin();
@@ -144,24 +144,7 @@ void loop() {
     lv_timer_handler();      // Atualiza a interface LVGL
     ui_tick();               // Atualização personalizada, se necessário
     lv_obj_t *obj = nullptr; // Variável declarada fora do switch
-
-    // Checar o status climático e atualizar variáveis globais
-    ClimateStatus currentStatus = mqttHandler.getClimateStatus();
-    if (currentStatus.valid) {
-        // Atualizar as variáveis globais com os valores recebidos
-        set_var_air_temperature(currentStatus.setTemperature);
-        set_var_room_temperature(currentStatus.currentTemperature);
-
-        // Imprimir os valores recebidos para debug
-        Serial.printf("Power: %s, Set Temp: %.1f, Current Temp: %.1f, Fan Mode: %s, Tornado: %s\n",
-                      currentStatus.power.c_str(),
-                      currentStatus.setTemperature,
-                      currentStatus.currentTemperature,
-                      currentStatus.fanMode.c_str(),
-                      currentStatus.tornado ? "true" : "false");
-    } else {
-        Serial.println("Dados climáticos inválidos ou não recebidos.");
-    }
+    mqtt_client_loop();      // Chama o loop MQTT para manter a conexão e processar mensagens
 
     switch (app_state) {
     case STATE_IDLE:
